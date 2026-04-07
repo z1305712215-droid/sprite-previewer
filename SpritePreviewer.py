@@ -32,22 +32,41 @@ class SpritePreview(QMainWindow):
 
 
     def setupUI(self):
-        # An application needs a central widget - often a QFrame
         frame = QFrame()
-        layout = QVBoxLayout()
+        main_layout = QVBoxLayout()
 
         self.sprite_label = QLabel()
         self.sprite_label.setPixmap(self.frames[0])
-        layout.addWidget(self.sprite_label)
+        self.sprite_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        main_layout.addWidget(self.sprite_label)
 
-        frame.setLayout(layout)
-        self.setCentralWidget(frame)
-        # Add a lot of code here to make layouts, more QFrame or QWidgets, and
-        # the other components of the program.
-        # Create needed connections between the UI components and slot methods
-        # you define in this class.
+        slider_frame = QFrame()
+        slider_layout = QHBoxLayout()
 
+        fps_text_label = QLabel("Frames per second")
+        slider_layout.addWidget(fps_text_label)
+
+        self.slider = QSlider(Qt.Orientation.Horizontal)
+        self.slider.setMinimum(1)
+        self.slider.setMaximum(100)
+        self.slider.setValue(10)
+        self.slider.setTickPosition(QSlider.TickPosition.TicksBelow)
+        self.slider.setTickInterval(10)
+        slider_layout.addWidget(self.slider)
+
+        self.fps_label = QLabel("10")
+        slider_layout.addWidget(self.fps_label)
+
+        slider_frame.setLayout(slider_layout)
+        main_layout.addWidget(slider_frame)
+
+        frame.setLayout(main_layout)
         self.setCentralWidget(frame)
+
+        self.slider.valueChanged.connect(self.update_fps_label)
+
+    def update_fps_label(self, value):
+        self.fps_label.setText(str(value))
 
 
     # You will need methods in the class to act as slots to connect to signals
