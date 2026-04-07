@@ -34,7 +34,14 @@ class SpritePreview(QMainWindow):
     def setupUI(self):
         # An application needs a central widget - often a QFrame
         frame = QFrame()
+        layout = QVBoxLayout()
 
+        self.sprite_label = QLabel()
+        self.sprite_label.setPixmap(self.frames[0])
+        layout.addWidget(self.sprite_label)
+
+        frame.setLayout(layout)
+        self.setCentralWidget(frame)
         # Add a lot of code here to make layouts, more QFrame or QWidgets, and
         # the other components of the program.
         # Create needed connections between the UI components and slot methods
